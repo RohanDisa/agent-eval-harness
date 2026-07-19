@@ -1,0 +1,10 @@
+services:
+  harness:
+    build: .
+    working_dir: /app
+    volumes:
+      - ./runs.db:/app/runs.db
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-}
+    command: ["tasks", "validate"]
