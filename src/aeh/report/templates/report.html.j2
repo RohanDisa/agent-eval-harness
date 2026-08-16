@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>AEH report {{ suite.run_id }}</title>
+  <style>
+    :root { font-family: "IBM Plex Sans", "Segoe UI", sans-serif; color: #1b1f24; background: #f6f3ee; }
+    body { max-width: 1100px; margin: 2rem auto; padding: 0 1.2rem 4rem; }
+    h1 { font-size: 1.6rem; margin-bottom: 0.2rem; }
+    .muted { color: #5c6570; font-size: 0.9rem; }
+    .banner { background: #8a1f1f; color: #fff; padding: 0.8rem 1rem; border-radius: 6px; margin: 1rem 0; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; margin: 1rem 0; }
+    .card { background: #fff; border: 1px solid #d9d2c5; border-radius: 8px; padding: 0.8rem 1rem; }
+    .card strong { display: block; font-size: 1.25rem; }
+    img { max-width: 100%; background: #fff; border: 1px solid #d9d2c5; border-radius: 8px; padding: 0.4rem; }
+    table { width: 100%; border-collapse: collapse; background: #fff; font-size: 0.88rem; }
+    th, td { border-bottom: 1px solid #e4ddd2; padding: 0.4rem 0.5rem; text-align: left; }
+    th { cursor: pointer; background: #efe8dc; }
+    .health { background: #fff8e8; border-color: #e0c56e; }
+    .warn { color: #8a1f1f; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>Agent Eval Harness</h1>
+  <p class="muted">
+    run {{ suite.run_id }} · git {{ config.git_sha }} ·
+    {{ config.adapter }} / {{ config.model }} ·
+    {{ config.attempts }} attempts ·
+    price table {{ config.price_table_version }} ({{ config.price_table_date }})
+  </p>
+
+  {% if metrics.harness_error_rate > 0.02 %}
+  <div class="banner">
+    Harness error rate is {{ '%.1f'|format(metrics.harness_error_rate * 100) }}%.
+    This run may not be a valid measurement.
+  </div>
+  {% endif %}
+
+  <div class="grid">
+    <div class="card">
+      <span class="muted">suite success rate</span>
+      <strong>{{ '%.1f'|format(metrics.suite_success_rate * 100) }}%</strong>
+      <span class="muted">Wilson 95% [{{ '%.1f'|format(metrics.suite_wilson_lo * 100) }}, {{ '%.1f'|format(metrics.suite_wilson_hi * 100) }}] · n={{ metrics.n_tasks }} tasks / {{ metrics.n_attempts }} attempts</span>
+    </div>
+    <div class="card">
+      <span class="muted">cost per success</span>
+      <strong>{% if metrics.cost_per_success is not none %}${{ '%.4f'|format(metrics.cost_per_success) }}{% else %}—{% endif %}</strong>
+      <span class="muted">total ${{ '%.4f'|format(metrics.total_cost) }} · ${{ '%.4f'|format(metrics.cost_per_completed_task) }} / completed task</span>
+    </div>
+    <div class="card">
+      <span class="muted">p95 latency</span>
+      <strong>{{ '%.0f'|format(metrics.p95_ms) }} ms</strong>
+      <span class="muted">p50 {{ '%.0f'|format(metrics.p50_ms) }} ms</span>
+    </div>
+  </div>
+
+  {% if charts.category %}<p><img alt="category chart" src="{{ charts.category }}" /></p>{% endif %}
+  {% if charts.failures %}<p><img alt="failure chart" src="{{ charts.failures }}" /></p>{% endif %}
+  {% if charts.scatter %}<p><img alt="cost scatter" src="{{ charts.scatter }}" /></p>{% endif %}
+  {% set extras = extras or {'tier1_violations': [], 'tier2_failed': 0, 'tier2_localized': 0, 'needs_human_review': 0, 'recovery': []} %}
+  {% if charts.recovery %}<p><img alt="recovery curve" src="{{ charts.recovery }}" /></p>{% endif %}
+
+  <h2>Tier-1 invariant violations</h2>
+  <p class="muted">Reported even when the run succeeded. A right answer that breaks a safety rule is still a finding.</p>
+  {% if extras.tier1_violations %}
+  <table>
+    <thead><tr><th>task</th><th>attempt</th><th>success</th><th>invariant</th><th>reason</th></tr></thead>
+    <tbody>
+    {% for v in extras.tier1_violations %}
+      <tr>
+        <td>{{ v.task_id }}</td>
+        <td>{{ v.attempt }}</td>
+        <td>{{ 'yes' if v.success else 'no' }}</td>
+        <td>{{ v.grader }}</td>
+        <td>{{ v.detail }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">None.</p>
+  {% endif %}
+
+  <h2>Tier-2 localization</h2>
+  <p class="muted">
+    On failed runs, how often a divergence step was named.
+    Divergence is not a grade — it does not flip success.
+  </p>
+  <p>
+    Failed attempts: {{ extras.tier2_failed }} ·
+    Named divergence step: {{ extras.tier2_localized }} ·
+    Needs human review: {{ extras.needs_human_review }}
+  </p>
+
+  <h2>Per-task results</h2>
+  <table id="tasks">
+    <thead>
+      <tr>
+        <th>task</th><th>cat</th><th>k/n</th><th>rate</th><th>wilson</th>
+        <th>steps</th><th>cost</th><th>failure</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for t in metrics.per_task %}
+      <tr>
+        <td>{{ t.task_id }}</td>
+        <td>{{ t.category }}</td>
+        <td>{{ t.k }}/{{ t.n }}</td>
+        <td>{{ '%.2f'|format(t.rate) }}</td>
+        <td>[{{ '%.2f'|format(t.wilson_lo) }}, {{ '%.2f'|format(t.wilson_hi) }}]</td>
+        <td>{{ '%.1f'|format(t.mean_steps) }}</td>
+        <td>{{ '%.4f'|format(t.total_cost) }}</td>
+        <td>{{ t.dominant_failure or '' }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Judge agreement</h2>
+  <p>{{ agree.headline }}</p>
+  <p class="muted">raw agreement {{ '%.2f'|format(agree.raw_agreement) }} ·
+    TP {{ agree.confusion.tp }} · TN {{ agree.confusion.tn }} ·
+    FP {{ agree.confusion.fp }} (judge lenient) · FN {{ agree.confusion.fn }} (judge strict)</p>
+
+  <h2>Measurement health</h2>
+  <div class="card health">
+    <p>Harness error rate: {{ '%.1f'|format(metrics.harness_error_rate * 100) }}%</p>
+    <p>Tasks skipped: {{ metrics.tasks_skipped }}</p>
+    <p>Judge parse failures: {{ metrics.judge_parse_failures }}</p>
+    <p>Termination: {{ metrics.termination }}</p>
+    {% if metrics.harness_error_rate > 0.02 %}
+      <p class="warn">A run with this many harness errors is not a valid measurement.</p>
+    {% endif %}
+  </div>
+
+  <script>
+    const table = document.getElementById('tasks');
+    const getVal = (tr, idx) => tr.children[idx].innerText;
+    table.querySelectorAll('th').forEach((th, idx) => {
+      th.addEventListener('click', () => {
+        const rows = [...table.tBodies[0].rows];
+        const dir = th.dataset.dir === 'asc' ? 'desc' : 'asc';
+        th.dataset.dir = dir;
+        rows.sort((a, b) => {
+          const va = getVal(a, idx), vb = getVal(b, idx);
+          const na = parseFloat(va), nb = parseFloat(vb);
+          const cmp = (!isNaN(na) && !isNaN(nb)) ? na - nb : va.localeCompare(vb);
+          return dir === 'asc' ? cmp : -cmp;
+        });
+        rows.forEach(r => table.tBodies[0].appendChild(r));
+      });
+    });
+  </script>
+</body>
+</html>
