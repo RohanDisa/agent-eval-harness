@@ -1,0 +1,7 @@
+{
+  "items": [
+    {"sku": "WDG-1", "warehouse": "BER", "qty": 4},
+    {"sku": "WDG-1", "warehouse": "SEA", "qty": 11},
+    {"sku": "GDG-2", "warehouse": "TYO", "qty": 7}
+  ]
+}

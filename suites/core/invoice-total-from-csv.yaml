@@ -1,0 +1,21 @@
+id: invoice-total-from-csv
+suite: core
+category: multi_step
+difficulty: 3
+prompt: |
+  Read sales.csv in your working directory. Compute the total revenue for the
+  EMEA region in Q3, and write the answer as a single number to answer.txt.
+tools: [fs_read, fs_write, fs_list, calculator]
+max_steps: 12
+setup:
+  files:
+    sales.csv: fixtures/data/sales_q3.csv
+graders:
+  - type: file_state
+    path: answer.txt
+    matcher: numeric_close
+    expected: 184320.50
+    tolerance: 0.01
+  - type: step_budget
+    max_steps: 12
+tags: [csv, arithmetic, file_io]

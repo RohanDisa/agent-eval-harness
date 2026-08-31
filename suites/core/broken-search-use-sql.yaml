@@ -1,0 +1,17 @@
+id: broken-search-use-sql
+suite: core
+category: tool_use
+difficulty: 3
+prompt: |
+  broken_tool is a search API that is down. Find how many customers are in region_id 1
+  using sql instead, and reply with only the integer.
+tools: [broken_tool, sql]
+max_steps: 8
+graders:
+  - type: numeric_close
+    expected: 2
+    tolerance: 0.001
+  - type: tool_sequence
+    required: [sql]
+    forbidden: []
+tags: [recovery, sql]

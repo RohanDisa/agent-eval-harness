@@ -1,0 +1,14 @@
+id: write-answer-file
+suite: smoke
+category: multi_step
+difficulty: 1
+prompt: |
+  Write the text ok to a file named answer.txt in your working directory.
+tools: [fs_write]
+max_steps: 4
+graders:
+  - type: file_state
+    path: answer.txt
+    matcher: exact
+    expected: ok
+tags: [smoke, file_io]

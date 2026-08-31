@@ -1,0 +1,14 @@
+id: toy-subtract
+suite: toy_math
+category: tool_use
+difficulty: 1
+prompt: |
+  Use the calculator to compute 100 - 58. Reply with only the number.
+tools: [calculator]
+invariants: [calculator_only]
+max_steps: 4
+graders:
+  - type: numeric_close
+    expected: 42
+    tolerance: 0.001
+tags: [toy_math, arithmetic]

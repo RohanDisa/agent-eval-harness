@@ -1,0 +1,16 @@
+id: http-then-calc
+suite: core
+category: tool_use
+difficulty: 3
+prompt: |
+  GET http://127.0.0.1:8765/products.json and sum the prices of all products
+  using the calculator. Reply with only the number.
+tools: [http_get, calculator]
+max_steps: 8
+graders:
+  - type: numeric_close
+    expected: 56.75
+    tolerance: 0.01
+  - type: tool_sequence
+    required: [http_get, calculator]
+tags: [tools, http]

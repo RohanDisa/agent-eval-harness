@@ -1,0 +1,26 @@
+id: copy-active-names
+suite: core
+category: multi_step
+difficulty: 2
+prompt: |
+  Read employees.csv and write the names of active employees, one per line,
+  sorted alphabetically, to names.txt.
+tools: [fs_read, fs_write]
+max_steps: 8
+setup:
+  files:
+    employees.csv: fixtures/data/employees.csv
+graders:
+  - type: file_state
+    path: names.txt
+    matcher: contains
+    expected: Ada
+  - type: file_state
+    path: names.txt
+    matcher: contains
+    expected: Barbara
+  - type: file_state
+    path: names.txt
+    matcher: not_contains
+    expected: Edsger
+tags: [csv, filter]

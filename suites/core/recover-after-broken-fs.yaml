@@ -1,0 +1,18 @@
+id: recover-after-broken-fs
+suite: core
+category: tool_use
+difficulty: 3
+prompt: |
+  broken_tool cannot list files. Use fs_list and fs_read instead to read
+  hello.txt and reply with its first line.
+tools: [broken_tool, fs_list, fs_read]
+max_steps: 8
+setup:
+  files:
+    hello.txt: fixtures/data/notes.md
+graders:
+  - type: contains
+    needle: Notes
+  - type: tool_sequence
+    required: [fs_read]
+tags: [recovery]

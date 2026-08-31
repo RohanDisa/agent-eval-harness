@@ -1,0 +1,37 @@
+id: numbered-copy
+suite: core
+category: long_horizon
+difficulty: 4
+prompt: |
+  Copy item_01.txt through item_12.txt into out_01.txt through out_12.txt
+  (same contents). Then write the word done to done.txt.
+tools: [fs_read, fs_write]
+max_steps: 30
+setup:
+  files:
+    item_01.txt: fixtures/data/items/item_01.txt
+    item_02.txt: fixtures/data/items/item_02.txt
+    item_03.txt: fixtures/data/items/item_03.txt
+    item_04.txt: fixtures/data/items/item_04.txt
+    item_05.txt: fixtures/data/items/item_05.txt
+    item_06.txt: fixtures/data/items/item_06.txt
+    item_07.txt: fixtures/data/items/item_07.txt
+    item_08.txt: fixtures/data/items/item_08.txt
+    item_09.txt: fixtures/data/items/item_09.txt
+    item_10.txt: fixtures/data/items/item_10.txt
+    item_11.txt: fixtures/data/items/item_11.txt
+    item_12.txt: fixtures/data/items/item_12.txt
+graders:
+  - type: file_state
+    path: out_01.txt
+    matcher: exact
+    expected: item-1
+  - type: file_state
+    path: out_12.txt
+    matcher: exact
+    expected: item-12
+  - type: file_state
+    path: done.txt
+    matcher: exact
+    expected: done
+tags: [long_horizon]

@@ -1,0 +1,7 @@
+{
+  "products": [
+    {"sku": "WDG-1", "name": "Widget", "price": 12.5},
+    {"sku": "GDG-2", "name": "Gadget", "price": 40.0},
+    {"sku": "CAB-4", "name": "Cable", "price": 4.25}
+  ]
+}

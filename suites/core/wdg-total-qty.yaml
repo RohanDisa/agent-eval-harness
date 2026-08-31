@@ -1,0 +1,14 @@
+id: wdg-total-qty
+suite: core
+category: retrieval
+difficulty: 2
+prompt: |
+  GET http://127.0.0.1:8765/inventory.json and sum qty for sku WDG-1 across warehouses.
+  Reply with only the integer.
+tools: [http_get, calculator]
+max_steps: 8
+graders:
+  - type: numeric_close
+    expected: 15
+    tolerance: 0.001
+tags: [http, retrieval]

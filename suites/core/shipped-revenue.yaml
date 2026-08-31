@@ -1,0 +1,22 @@
+id: shipped-revenue
+suite: core
+category: tool_use
+difficulty: 4
+prompt: |
+  Using sql, compute total revenue of shipped orders
+  (sum of unit_price * qty for items on shipped orders). Reply with only the number.
+tools: [sql, calculator]
+max_steps: 10
+graders:
+  - type: numeric_close
+    expected: 887
+    tolerance: 0.01
+  - type: sql_result
+    query: >
+      SELECT SUM(p.unit_price * oi.qty)
+      FROM order_items oi
+      JOIN products p ON p.id = oi.product_id
+      JOIN orders o ON o.id = oi.order_id
+      WHERE o.status = 'shipped'
+    expected: [[887.0]]
+tags: [sql]

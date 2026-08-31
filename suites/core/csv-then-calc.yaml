@@ -1,0 +1,19 @@
+id: csv-then-calc
+suite: core
+category: tool_use
+difficulty: 3
+prompt: |
+  Read sales.csv, add the two EMEA Q3 revenue numbers with the calculator,
+  and reply with only the total.
+tools: [fs_read, calculator]
+max_steps: 8
+setup:
+  files:
+    sales.csv: fixtures/data/sales_q3.csv
+graders:
+  - type: numeric_close
+    expected: 184320.50
+    tolerance: 0.01
+  - type: tool_sequence
+    required: [fs_read, calculator]
+tags: [tools, csv]

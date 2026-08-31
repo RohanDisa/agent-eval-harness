@@ -1,0 +1,21 @@
+id: sql-then-write
+suite: core
+category: tool_use
+difficulty: 3
+prompt: |
+  Query the fixture database for the number of gold-tier customers.
+  Write that integer to answer.txt.
+tools: [sql, fs_write]
+max_steps: 8
+graders:
+  - type: file_state
+    path: answer.txt
+    matcher: numeric_close
+    expected: 3
+    tolerance: 0.001
+  - type: tool_sequence
+    required: [sql, fs_write]
+  - type: sql_result
+    query: "SELECT COUNT(*) FROM customers WHERE tier = 'gold'"
+    expected: [[3]]
+tags: [tools, sql]

@@ -1,0 +1,17 @@
+id: list-then-read
+suite: smoke
+category: multi_step
+difficulty: 2
+prompt: |
+  List the working directory, read hello.txt, and reply with its contents exactly.
+tools: [fs_list, fs_read]
+max_steps: 6
+setup:
+  files:
+    hello.txt: fixtures/data/notes.md
+graders:
+  - type: contains
+    needle: project code is 7-4-1
+  - type: tool_sequence
+    required: [fs_list, fs_read]
+tags: [smoke, file_io]

@@ -1,0 +1,12 @@
+id: echo-hello
+suite: smoke
+category: tool_use
+difficulty: 1
+prompt: |
+  Reply with exactly the word hello and nothing else.
+tools: []
+max_steps: 3
+graders:
+  - type: exact
+    expected: hello
+tags: [smoke, baseline]

@@ -1,0 +1,18 @@
+id: json-shape
+suite: smoke
+category: tool_use
+difficulty: 1
+prompt: |
+  Reply with a JSON object {"ok": true, "n": 1} and nothing else.
+tools: []
+max_steps: 3
+graders:
+  - type: json_schema
+    schema:
+      type: object
+      required: [ok, n]
+      additionalProperties: false
+      properties:
+        ok: {type: boolean, const: true}
+        n: {type: integer, const: 1}
+tags: [smoke, json]

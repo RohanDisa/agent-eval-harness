@@ -1,0 +1,16 @@
+id: broken-then-fallback
+suite: core
+category: tool_use
+difficulty: 3
+prompt: |
+  Try the broken_tool first. It will fail. Recover by using the calculator to
+  compute 20 * 3 and reply with only that number.
+tools: [broken_tool, calculator]
+max_steps: 8
+graders:
+  - type: numeric_close
+    expected: 60
+    tolerance: 0.001
+  - type: tool_sequence
+    required: [calculator]
+tags: [recovery, fault]

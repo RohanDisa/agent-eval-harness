@@ -1,0 +1,9 @@
+# Example fault profile. Pass with: aeh run --fault-profile faults.yaml
+calculator:
+  fail_rate: 0.15
+  latency_ms: 50
+fs_read:
+  fail_rate: 0.15
+  latency_ms: 20
+http_get:
+  fail_rate: 0.15

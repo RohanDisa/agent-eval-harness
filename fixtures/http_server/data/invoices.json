@@ -1,0 +1,7 @@
+{
+  "invoices": [
+    {"id": "INV-100", "customer": "Aurora GmbH", "total": 215.0, "status": "paid"},
+    {"id": "INV-101", "customer": "Northwind LLC", "total": 80.0, "status": "open"},
+    {"id": "INV-102", "customer": "Sakura KK", "total": 297.0, "status": "paid"}
+  ]
+}

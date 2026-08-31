@@ -1,0 +1,17 @@
+id: broken-http-use-file
+suite: core
+category: tool_use
+difficulty: 3
+prompt: |
+  The live catalog API is broken_tool and will fail. Read local products.csv
+  instead and reply with the price of WDG-1.
+tools: [broken_tool, fs_read]
+max_steps: 8
+setup:
+  files:
+    products.csv: fixtures/data/products.csv
+graders:
+  - type: numeric_close
+    expected: 12.50
+    tolerance: 0.01
+tags: [recovery]

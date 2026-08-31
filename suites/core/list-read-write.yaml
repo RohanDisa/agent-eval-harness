@@ -1,0 +1,19 @@
+id: list-read-write
+suite: core
+category: tool_use
+difficulty: 2
+prompt: |
+  List the working directory, read secret_name.txt, and write its contents to out.txt.
+tools: [fs_list, fs_read, fs_write]
+max_steps: 8
+setup:
+  files:
+    secret_name.txt: fixtures/data/notes.md
+graders:
+  - type: file_state
+    path: out.txt
+    matcher: contains
+    expected: 7-4-1
+  - type: tool_sequence
+    required: [fs_list, fs_read, fs_write]
+tags: [tools, file_io]

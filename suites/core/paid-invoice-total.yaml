@@ -1,0 +1,14 @@
+id: paid-invoice-total
+suite: core
+category: retrieval
+difficulty: 2
+prompt: |
+  GET http://127.0.0.1:8765/invoices.json and sum the totals of invoices with status paid.
+  Reply with only the number.
+tools: [http_get, calculator]
+max_steps: 8
+graders:
+  - type: numeric_close
+    expected: 512
+    tolerance: 0.01
+tags: [http, retrieval]

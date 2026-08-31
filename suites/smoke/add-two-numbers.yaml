@@ -1,0 +1,15 @@
+id: add-two-numbers
+suite: smoke
+category: tool_use
+difficulty: 1
+prompt: |
+  Use the calculator tool to compute 17 + 25. Reply with only the number.
+tools: [calculator]
+max_steps: 4
+graders:
+  - type: numeric_close
+    expected: 42
+    tolerance: 0.001
+  - type: tool_sequence
+    required: [calculator]
+tags: [smoke, calculator]

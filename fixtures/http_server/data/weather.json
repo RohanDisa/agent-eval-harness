@@ -1,0 +1,7 @@
+{
+  "cities": [
+    {"name": "Berlin", "celsius": 18},
+    {"name": "Tokyo", "celsius": 27},
+    {"name": "Seattle", "celsius": 14}
+  ]
+}

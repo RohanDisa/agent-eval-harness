@@ -1,0 +1,16 @@
+id: sql-and-calculator
+suite: core
+category: tool_use
+difficulty: 3
+prompt: |
+  Query order_items for the qty of product_id 1 (sum them) and use the calculator
+  if needed. Reply with only the integer total qty of widgets.
+tools: [sql, calculator]
+max_steps: 8
+graders:
+  - type: numeric_close
+    expected: 18
+    tolerance: 0.001
+  - type: tool_sequence
+    required: [sql]
+tags: [tools, sql]

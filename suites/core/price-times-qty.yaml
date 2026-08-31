@@ -1,0 +1,19 @@
+id: price-times-qty
+suite: core
+category: multi_step
+difficulty: 3
+prompt: |
+  Join prices.csv and qty.csv on sku. Compute sum(price * qty) and write it to answer.txt.
+tools: [fs_read, fs_write, calculator]
+max_steps: 10
+setup:
+  files:
+    prices.csv: fixtures/data/prices.csv
+    qty.csv: fixtures/data/qty.csv
+graders:
+  - type: file_state
+    path: answer.txt
+    matcher: numeric_close
+    expected: 18.5
+    tolerance: 0.01
+tags: [csv, join]

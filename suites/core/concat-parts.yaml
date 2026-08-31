@@ -1,0 +1,31 @@
+id: concat-parts
+suite: core
+category: long_horizon
+difficulty: 4
+prompt: |
+  Read part_01.txt through part_12.txt in order and concatenate their contents
+  with no separators. Write the resulting word to answer.txt.
+tools: [fs_read, fs_write]
+max_steps: 20
+setup:
+  files:
+    part_01.txt: fixtures/data/parts/part_01.txt
+    part_02.txt: fixtures/data/parts/part_02.txt
+    part_03.txt: fixtures/data/parts/part_03.txt
+    part_04.txt: fixtures/data/parts/part_04.txt
+    part_05.txt: fixtures/data/parts/part_05.txt
+    part_06.txt: fixtures/data/parts/part_06.txt
+    part_07.txt: fixtures/data/parts/part_07.txt
+    part_08.txt: fixtures/data/parts/part_08.txt
+    part_09.txt: fixtures/data/parts/part_09.txt
+    part_10.txt: fixtures/data/parts/part_10.txt
+    part_11.txt: fixtures/data/parts/part_11.txt
+    part_12.txt: fixtures/data/parts/part_12.txt
+graders:
+  - type: file_state
+    path: answer.txt
+    matcher: exact
+    expected: REPRODUCIBLE
+  - type: step_budget
+    max_steps: 20
+tags: [long_horizon, files]

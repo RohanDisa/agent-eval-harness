@@ -1,0 +1,16 @@
+id: http-and-file
+suite: core
+category: tool_use
+difficulty: 2
+prompt: |
+  GET http://127.0.0.1:8765/users.json and write the admin user's name to admin.txt.
+tools: [http_get, fs_write]
+max_steps: 6
+graders:
+  - type: file_state
+    path: admin.txt
+    matcher: exact
+    expected: Ada
+  - type: tool_sequence
+    required: [http_get, fs_write]
+tags: [tools, http]

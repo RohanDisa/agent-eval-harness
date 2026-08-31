@@ -1,0 +1,30 @@
+id: running-sum
+suite: core
+category: long_horizon
+difficulty: 4
+prompt: |
+  Read n_01.txt through n_12.txt (each contains one integer) and write the sum
+  of all twelve numbers to answer.txt.
+tools: [fs_read, fs_write, calculator]
+max_steps: 24
+setup:
+  files:
+    n_01.txt: fixtures/data/items/n_01.txt
+    n_02.txt: fixtures/data/items/n_02.txt
+    n_03.txt: fixtures/data/items/n_03.txt
+    n_04.txt: fixtures/data/items/n_04.txt
+    n_05.txt: fixtures/data/items/n_05.txt
+    n_06.txt: fixtures/data/items/n_06.txt
+    n_07.txt: fixtures/data/items/n_07.txt
+    n_08.txt: fixtures/data/items/n_08.txt
+    n_09.txt: fixtures/data/items/n_09.txt
+    n_10.txt: fixtures/data/items/n_10.txt
+    n_11.txt: fixtures/data/items/n_11.txt
+    n_12.txt: fixtures/data/items/n_12.txt
+graders:
+  - type: file_state
+    path: answer.txt
+    matcher: numeric_close
+    expected: 78
+    tolerance: 0.001
+tags: [long_horizon, arithmetic]

@@ -1,0 +1,7 @@
+name,dept,salary,active
+Ada,eng,140000,true
+Alan,eng,125000,true
+Grace,ops,98000,true
+Edsger,eng,150000,false
+Barbara,sales,110000,true
+Donald,eng,132000,true

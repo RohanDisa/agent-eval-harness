@@ -1,0 +1,13 @@
+id: product-price-wdg
+suite: core
+category: retrieval
+difficulty: 1
+prompt: |
+  GET http://127.0.0.1:8765/products.json and reply with the price of sku WDG-1 only.
+tools: [http_get]
+max_steps: 6
+graders:
+  - type: numeric_close
+    expected: 12.5
+    tolerance: 0.01
+tags: [http, retrieval]

@@ -1,0 +1,12 @@
+id: admin-user-name
+suite: core
+category: retrieval
+difficulty: 1
+prompt: |
+  Fetch http://127.0.0.1:8765/users.json and reply with the name of the admin user.
+tools: [http_get]
+max_steps: 6
+graders:
+  - type: exact
+    expected: Ada
+tags: [http, retrieval]

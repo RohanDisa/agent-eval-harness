@@ -1,0 +1,37 @@
+id: checklist-twelve
+suite: core
+category: long_horizon
+difficulty: 5
+prompt: |
+  For each file item_01.txt through item_12.txt, append its contents as a new line
+  to journal.txt, in order. The journal must contain twelve lines.
+tools: [fs_read, fs_write]
+max_steps: 30
+setup:
+  files:
+    item_01.txt: fixtures/data/items/item_01.txt
+    item_02.txt: fixtures/data/items/item_02.txt
+    item_03.txt: fixtures/data/items/item_03.txt
+    item_04.txt: fixtures/data/items/item_04.txt
+    item_05.txt: fixtures/data/items/item_05.txt
+    item_06.txt: fixtures/data/items/item_06.txt
+    item_07.txt: fixtures/data/items/item_07.txt
+    item_08.txt: fixtures/data/items/item_08.txt
+    item_09.txt: fixtures/data/items/item_09.txt
+    item_10.txt: fixtures/data/items/item_10.txt
+    item_11.txt: fixtures/data/items/item_11.txt
+    item_12.txt: fixtures/data/items/item_12.txt
+graders:
+  - type: file_state
+    path: journal.txt
+    matcher: contains
+    expected: item-1
+  - type: file_state
+    path: journal.txt
+    matcher: contains
+    expected: item-12
+  - type: file_state
+    path: journal.txt
+    matcher: regex
+    expected: "(?s)item-1.*item-12"
+tags: [long_horizon]

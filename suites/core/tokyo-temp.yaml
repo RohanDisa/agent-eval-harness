@@ -1,0 +1,17 @@
+id: tokyo-temp
+suite: core
+category: retrieval
+difficulty: 1
+prompt: |
+  GET http://127.0.0.1:8765/weather.json and reply with Tokyo's temperature in celsius only.
+tools: [http_get]
+max_steps: 6
+graders:
+  - type: numeric_close
+    expected: 27
+    tolerance: 0.001
+  - type: judge
+    rubric: |
+      Pass if the agent reported Tokyo's temperature as 27 (celsius).
+      Fail if the number is missing or wrong.
+tags: [http, retrieval]
