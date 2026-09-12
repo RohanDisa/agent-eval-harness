@@ -1,0 +1,5 @@
+{
+  "echo-hello": {"success": true, "failure_class": null},
+  "add-two-numbers": {"success": true, "failure_class": null},
+  "write-answer-file": {"success": true, "failure_class": null}
+}

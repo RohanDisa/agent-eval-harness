@@ -1,0 +1,36 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Ruff
+        run: |
+          ruff check src tests suites
+          ruff format --check src tests suites
+      - name: Pytest
+        run: pytest --cov=aeh --cov-report=term-missing --cov-fail-under=80
+      - name: Validate suites
+        run: aeh tasks validate
+      - name: Run plugin suites
+        run: |
+          aeh run --suite ./suites/toy_math --adapter mock --attempts 1 --json
+          aeh run --suite ./suites/customer_support --adapter mock --attempts 1 --json
+          aeh run --suite ./suites/toy_math --adapter mock --log-level steps --log-only tools --json
+      - name: Golden replay
+        run: |
+          python tests/golden/import_golden.py
+          aeh replay --run-id golden-smoke --json > /tmp/golden-replay.json
+          python -c "import json; json.load(open('/tmp/golden-replay.json')); print('replay ok')"
+      - name: Docker image
+        run: docker build -t aeh:ci .

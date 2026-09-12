@@ -1,0 +1,45 @@
+{
+  "run_id": "golden-smoke",
+  "task_id": "add-two-numbers",
+  "attempt": 0,
+  "seed": 1,
+  "adapter": "mock",
+  "model": "mock",
+  "steps": [
+    {
+      "index": 0,
+      "model_input_tokens": 5,
+      "model_output_tokens": 5,
+      "model_latency_ms": 1.0,
+      "reasoning_text": null,
+      "tool_call": {
+        "index": 0,
+        "name": "calculator",
+        "arguments": {"expression": "17+25"},
+        "result": "42",
+        "error": null,
+        "latency_ms": 1.0,
+        "started_at": "2026-09-01T00:00:00",
+        "malformed": false,
+        "hallucinated": false
+      },
+      "raw_response": {"scripted": true, "payload": {"tool": "calculator"}}
+    },
+    {
+      "index": 1,
+      "model_input_tokens": 5,
+      "model_output_tokens": 5,
+      "model_latency_ms": 1.0,
+      "reasoning_text": null,
+      "tool_call": null,
+      "raw_response": {"scripted": true, "payload": {"final": "42"}}
+    }
+  ],
+  "final_output": "42",
+  "terminated_by": "completed",
+  "wall_clock_ms": 3.0,
+  "sandbox_final_state": {"files": {}},
+  "error": null,
+  "allowed_tools": ["calculator"],
+  "task_category": "tool_use"
+}

@@ -1,0 +1,26 @@
+{
+  "run_id": "golden-smoke",
+  "task_id": "echo-hello",
+  "attempt": 0,
+  "seed": 1,
+  "adapter": "mock",
+  "model": "mock",
+  "steps": [
+    {
+      "index": 0,
+      "model_input_tokens": 5,
+      "model_output_tokens": 5,
+      "model_latency_ms": 1.0,
+      "reasoning_text": null,
+      "tool_call": null,
+      "raw_response": {"scripted": true, "payload": {"final": "hello"}}
+    }
+  ],
+  "final_output": "hello",
+  "terminated_by": "completed",
+  "wall_clock_ms": 2.0,
+  "sandbox_final_state": {"files": {}},
+  "error": null,
+  "allowed_tools": [],
+  "task_category": "tool_use"
+}

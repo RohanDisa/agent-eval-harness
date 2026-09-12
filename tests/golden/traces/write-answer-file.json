@@ -1,0 +1,40 @@
+{
+  "run_id": "golden-smoke",
+  "task_id": "write-answer-file",
+  "attempt": 0,
+  "seed": 1,
+  "adapter": "mock",
+  "model": "mock",
+  "steps": [
+    {
+      "index": 0,
+      "model_input_tokens": 5,
+      "model_output_tokens": 5,
+      "model_latency_ms": 1.0,
+      "reasoning_text": null,
+      "tool_call": {
+        "index": 0,
+        "name": "fs_write",
+        "arguments": {"path": "answer.txt", "content": "ok"},
+        "result": "wrote answer.txt",
+        "error": null,
+        "latency_ms": 1.0,
+        "started_at": "2026-09-01T00:00:00",
+        "malformed": false,
+        "hallucinated": false
+      },
+      "raw_response": {"scripted": true, "payload": {"write": true}}
+    }
+  ],
+  "final_output": "ok",
+  "terminated_by": "completed",
+  "wall_clock_ms": 2.0,
+  "sandbox_final_state": {
+    "files": {
+      "answer.txt": {"sha256": "placeholder", "size": 2, "text": "ok"}
+    }
+  },
+  "error": null,
+  "allowed_tools": ["fs_write"],
+  "task_category": "multi_step"
+}
