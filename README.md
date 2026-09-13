@@ -58,8 +58,6 @@ with `z = 1.96`. The point estimate is still `k/n`.
 
 The bundled agents are deliberately simple. If `single_shot` matches `react` on this suite, the tasks are too easy and that should be said out loud.
 
-No LangChain, no LlamaIndex, no agent framework. Provider HTTP APIs are called directly.
-
 ## Install
 
 ```bash
