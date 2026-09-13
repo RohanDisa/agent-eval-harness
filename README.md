@@ -139,7 +139,7 @@ The mock adapter auto-satisfies programmatic graders so the rest of the stack ca
 | Harness error rate | **0.0%** | Below the 2% “run may be invalid” banner |
 | Judge κ vs programmatic | **no overlap** | Judge was not configured (no provider). Overlap tasks exist (`tokyo-temp`, `extract-project-code`, two refusal tasks) for when a judge model is set. |
 
-### Live AUT (`react` vs `single_shot`) — not invented
+### Live AUT (`react` vs `single_shot`)
 
 A live `gpt-4o-mini` run was **not** executed in this environment (no `OPENAI_API_KEY`). Those cells stay empty on purpose.
 
